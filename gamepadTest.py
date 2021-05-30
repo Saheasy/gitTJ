@@ -56,10 +56,9 @@ class robot:
             'sonar': {'trigger': 12, 'echo': 13}
             }
         self.board = pymata4.Pymata4()
-        print([x for x in self.pins['pwmOut'] ])
-
-        [self.board.set_pin_mode_pwm_output(x) for x in self.pins['digitalOut'] ]
-        [self.board.set_pin_mode_pwm_output(x) for x in self.pins['analogOut'] ]
+        [self.board.set_pin_mode_pwm_output(self.pins['pwmOut'][x]) for x in self.pins['pwmOut'] ]
+        [self.board.set_pin_mode_pwm_output(self.pins['digitalOut'][x]) for x in self.pins['digitalOut'] ]
+        [self.board.set_pin_mode_pwm_output(self.pins['analogOut'][x]) for x in self.pins['analogOut'] ]
         self.board.set_pin_mode_sonar( self.pins['sonar']['trigger'], self.pins['sonar']['echo'] )
 
     def motorDriver(self, value, ena, in1, in2):
