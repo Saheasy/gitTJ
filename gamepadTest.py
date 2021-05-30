@@ -116,13 +116,13 @@ class robot:
             events = get_gamepad() #values 0-255 0 == max UP, 0 == max RIGHT
             for event in events:
                 if event.code == "ABS_Y":
-                    self.values['leftY'] = event.state - 127
+                    self.values['leftY'] = (event.state - 127)/2
                 if event.code == "ABS_RZ":
-                    self.values['rightY'] = event.state - 127
+                    self.values['rightY'] = (event.state - 127)/2
                 if event.code == "ABS_X":
-                    self.values['leftX'] = event.state - 127
+                    self.values['leftX'] = (event.state - 127)/2
                 if event.code == "ABS_Z":
-                    self.values['rightX'] = event.state - 127
+                    self.values['rightX'] = (event.state - 127)/2
                 
             self.tankDrive(
                 self.values['leftY'],
