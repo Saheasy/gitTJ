@@ -99,6 +99,7 @@ class robot:
         self.fR = lY - lX - rX
         self.bL = -lY + lX - rX
         self.bR = lY + lX - rX
+        print( [self.fL, self.fR, self.bL, self.bR], end='\r' )
         self.drive()
 
     def run(self):
@@ -118,7 +119,6 @@ class robot:
                 self.values['leftX'],
                 self.values['leftY'],
                 self.values['rightX'] )
-            print(self.values, end = '\r')
                
 
 
