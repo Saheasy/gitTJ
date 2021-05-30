@@ -133,7 +133,7 @@ class robot:
 if __name__ == "__main__":
     TJ = robot()
     art.tprint('TJ', font='dog') #big, 
-    art.tprint('Educational Platform', font = 'nancyj')
-    art.tprint('Teleoperational Testbed', font = 'nancyj')
+    art.tprint('Educational Platform', font = 'stop')
+    art.tprint('Teleoperational Testbed', font = 'stop')
 
     TJ.run()
