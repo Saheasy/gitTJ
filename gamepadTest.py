@@ -69,7 +69,7 @@ class robot:
         if value < 0:
             self.board.digital_write(in1, 1)
             self.board.digital_write(in2, 0)
-        self.board.pwm_write(ena, ( abs(value) * 2 ) / (3/4) )
+        self.board.pwm_write(ena, int( abs(value) * 2 * 0.75 ) )
         return(ena, in1, in2)
 
     def drive(self):
