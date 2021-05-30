@@ -124,4 +124,4 @@ class robot:
 
 if __name__ == "__main__":
     TJ = robot()
-    robot.run()
+    TJ.run()
