@@ -118,7 +118,7 @@ class robot:
                 self.values['leftX'],
                 self.values['leftY'],
                 self.values['rightX'] )
-
+            print(self.values, end = '\r')
                
 
 
