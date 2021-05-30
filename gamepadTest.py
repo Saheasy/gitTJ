@@ -109,7 +109,7 @@ class robot:
         self.fR = -rY
         self.bL = lY
         self.bR = -rY
-        print( f'fL: {self.fL} | fR: {self.fR} | bL: {self.bL} | bR: {self.bR}' + ' ' * 20, end='\r' )
+        #print( f'fL: {self.fL} | fR: {self.fR} | bL: {self.bL} | bR: {self.bR}' + ' ' * 20, end='\r' )
         self.drive()
 
     def run(self):
