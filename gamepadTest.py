@@ -1,98 +1,127 @@
-# TJ Collaborative Robotics Platform
-
-# Imports
-import time
+#from numpy import interp
 from pymata4 import pymata4
-import sys
+from inputs import get_gamepad
 
-#Setup Dictionary
-sensorDict = {
-    "distanceSensor": {
-        "pin":0,
-        "type": "analog",
-        "io": "input",
-        "value": "null",
-        "docs": ["https://www.aranacorp.com/en/using-a-distance-sensor-gp2y0a21-arduino/"]},
-    "lightSensor": {
-        "pin":1,
-        "type": "analog",
-        "io": "input",
-        "value": "null",
-        "docs": ["https://wiki.dfrobot.com/DFRobot_Ambient_Light_Sensor_SKU_DFR0026"]},
-    "tempSensor": {
-        "pin":2,
-        "type": "analog",
-        "io": "input",
-        "value": "null",
-        "docs": ["https://wiki.dfrobot.com/DFRobot_LM35_Linear_Temperature_Sensor__SKU_DFR0023_"]},
-    "relay": {
-        "pin":22,
-        "type": "digital",
-        "io": "input",
-        "value": 0,
-        "docs": ["https://wiki.dfrobot.com/Tutorial__DFR0017_V2_Relay", "https://wiki.dfrobot.com/Relay_Module__Arduino_Compatible___SKU__DFR0017_"]},
-    "rotSensor": {
-        "pin":3,
-        "type": "analog",
-        "io": "input",
-        "value": "null",
-        "docs": ["https://wiki.dfrobot.com/Analog_Rotation_Sensor_V2__SKU__DFR0058_"]},
-    "ultrasonicSensor": {
-        "triggerPin": 12,
-        "echoPin":13,
-        "type": "digital",
-        "value": "null",
-        "docs": ["https://wiki.dfrobot.com/DFRobot_LM35_Linear_Temperature_Sensor__SKU_DFR0023_"]}
-    }
+class streamingMovingAverage:
+    def __init__(self, window_size):
+        self.window_size = window_size
+        self.values = []
+        self.sum = 0
 
-#Callbacks
-def ultrasonicCallback(data):
-    #print(data)
-    pass
+    def process(self, value):
+        self.values.append(value)
+        self.sum += value
+        if len(self.values) > self.window_size:
+            self.sum -= self.values.pop(0)
+        return float(self.sum) / len(self.values)
 
-def distanceCallback(data):
-    #print(data)
-    pass
+class robot:
+    def __init__(self):
+        self.values = {
+            'leftX' : 127,
+            'leftY' : 127,
+            'rightX' : 127,
+            'rightY' : 127,
+            'sonar': 0, 
+            'distance' : 0,
+            'light' : 0, 
+            'temp' : 0,
+            'rot' : 0, 
 
-def distanceCalc(value):
-    return(((67870.0 / (value - 3.0)) - 40.0))
+        }
+        self.pins = {
+            'pwmOut' : { 
+                'leftEnA': 2,
+                'leftEnB': 3,
+                'rightEnA': 4,
+                'rightEnB': 5, 
+                },
+            'digitalOut' : {
+                'leftIn1': 22, 
+                'leftIn2': 23, 
+                'leftIn3': 24,
+                'leftIn4': 25, 
+                'rightIn1': 26, 
+                'rightIn2': 27, 
+                'rightIn3': 28,
+                'rightIn4': 29,
+                'relay': 53, 
+                },
+            'analogOut' : {
+                'distance': 0,
+                'light' : 1,
+                'temp' : 2,
+                'rot' : 3
+                },
+            'sonar': {'trigger': 12, 'echo': 13}
+            }
+        self.board = pymata4.Pymata4()
+        [self.board.set_pin_mode_pwm_output(x) for x in self.pins['pwmOut'].keys() ]
+        [self.board.set_pin_mode_pwm_output(x) for x in self.pins['digitalOut'].keys() ]
+        [self.board.set_pin_mode_pwm_output(x) for x in self.pins['analogOut'].keys() ]
+        self.board.set_pin_mode_sonar( self.pins['sonar']['trigger'], self.pins['sonar']['echo'] )
 
-def lightCallback(data):
-    #print(data[2], end = '\n')
-    pass
+    def motorDriver(self, value, ena, in1, in2):
+        if value >= 0:
+            self.board.digital_write(in1, 0)
+            self.board.digital_write(in2, 1)
+        if value < 0:
+            self.board.digital_write(in1, 1)
+            self.board.digital_write(in2, 0)
+        self.board.pwm_write(ena, abs(value) * 2 )
+        return(ena, in1, in2)
 
-def tempCallback(data):
-    #print(data[2], end = '\r')
-    pass
+    def drive(self):
+        self.motorDriver( 
+            self.fL, 
+            self.pins['pwmOut']['leftEnA'], 
+            self.pins['digitalOut']['leftIn1'],
+            self.pins['digitalOut']['leftIn2'])
+        self.motorDriver( 
+            self.bL, 
+            self.pins['pwmOut']['leftEnB'], 
+            self.pins['digitalOut']['leftIn3'],
+            self.pins['digitalOut']['leftIn4'])
+        self.motorDriver( 
+            self.fR, 
+            self.pins['pwmOut']['rightEnA'], 
+            self.pins['digitalOut']['rightIn1'],
+            self.pins['digitalOut']['rightIn2'])
+        self.motorDriver( 
+            self.fR, 
+            self.pins['pwmOut']['rightEnB'], 
+            self.pins['digitalOut']['rightIn3'],
+            self.pins['digitalOut']['rightIn4'])
+        
 
-def rotCallback(data):
-    #print(data, end='\r')
-    pass
+    def holonomicDrive(self, lX, lY, rX, ):
+        self.fL = -lY - lX - rX
+        self.fR = lY - lX - rX
+        self.bL = -lY + lX - rX
+        self.bR = lY + lX - rX
+        self.drive()
 
-def relayCallback(data):
-    pass
+    def run(self):
+        while 1:
+            event = get_gamepad() #values 0-255 0 == max UP, 0 == max RIGHT
+            if event.code == "ABS_Y":
+                self.values['leftY'] = event.state - 127
+            if event.code == "ABS_RZ":
+                self.values['rightY'] = event.state - 127
+            if event.code == "ABS_X":
+                self.values['leftX'] = event.state - 127
+            if event.code == "ABS_Z":
+                self.values['rightX'] = event.state - 127
+            
+            self.holonomicDrive(
+                self.values['leftX'],
+                self.values['leftY'],
+                self.values['rightX'],
+                self.values['rightY'] )
 
-#Configuration
-board = pymata4.Pymata4()
-board.set_pin_mode_sonar( sensorDict["ultrasonicSensor"]["triggerPin"], sensorDict["ultrasonicSensor"]["triggerPin"], ultrasonicCallback )
-board.set_pin_mode_analog_input(sensorDict["distanceSensor"]["pin"], callback=distanceCallback, differential = 2)
-board.set_pin_mode_analog_input(sensorDict["lightSensor"]["pin"], callback=lightCallback)
-board.set_pin_mode_analog_input(sensorDict["tempSensor"]["pin"], callback=tempCallback)
-board.set_pin_mode_analog_input(sensorDict["rotSensor"]["pin"], callback=rotCallback)
-#board.set_pin_mode_digital_output(sensorDict["relaySensor"]["pin"], callback=relayCallback)
+               
 
-#Actual Code
-while 1:
-    try:
-        time.sleep(0.01)
-        print('Ultrasonic: {0} | Distance: {1} | Light: {2} | Temp: {3} | Rot: {4} '.format(
-            board.sonar_read(sensorDict["ultrasonicSensor"]["triggerPin"])[0],
-            distanceCalc( board.analog_read( sensorDict[ "distanceSensor" ][ "pin" ] ) [0]) ,
-            board.analog_read( sensorDict[ "lightSensor" ][ "pin" ] ) [0] ,
-            board.analog_read( sensorDict[ "tempSensor" ][ "pin" ] )[0] ,
-            board.analog_read( sensorDict[ "rotSensor" ][ "pin" ] )[0] ), end='\r')
 
-    except KeyboardInterrupt:
-            board.shutdown()
-            sys.exit(0)
-    
+if __name__ == "__main__":
+    TJ = robot()
+    robot.run()
