@@ -70,6 +70,7 @@ class robot:
             self.board.digital_write(in1, 1)
             self.board.digital_write(in2, 0)
         self.board.pwm_write(ena, int( abs(value) * 2 * 0.75 ) )
+        print(ena, in1, in2)
         return(ena, in1, in2)
 
     def drive(self):
