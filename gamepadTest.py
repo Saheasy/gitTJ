@@ -101,6 +101,14 @@ class robot:
         self.bR = lY + lX - rX
         print( [self.fL, self.fR, self.bL, self.bR], end='\r' )
         self.drive()
+    
+    def tankDrive(self, lY, rY):
+        self.fL = lY
+        self.fR = -rY
+        self.bL = lY
+        self.bR = -rY
+        print( [self.fL, self.fR, self.bL, self.bR], end='\r' )
+        self.drive()
 
     def run(self):
         while 1:
@@ -115,10 +123,9 @@ class robot:
                 if event.code == "ABS_Z":
                     self.values['rightX'] = event.state - 127
                 
-            self.holonomicDrive(
-                self.values['leftX'],
+            self.tankDrive(
                 self.values['leftY'],
-                self.values['rightX'] )
+                self.values['rightY'] )
                
 
 
