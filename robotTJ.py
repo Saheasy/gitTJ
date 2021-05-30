@@ -1,5 +1,5 @@
 
-from numpy import interp
+#from numpy import interp
 from pymata4 import pymata4
 from inputs import get_gamepad
 
