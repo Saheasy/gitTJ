@@ -69,7 +69,7 @@ class robot:
         if value < 0:
             self.board.digital_write(in1, 1)
             self.board.digital_write(in2, 0)
-        self.board.pwm_write(ena, abs(value) * 2 )
+        self.board.pwm_write(ena, abs(value) )
         return(ena, in1, in2)
 
     def drive(self):
@@ -116,13 +116,13 @@ class robot:
             events = get_gamepad() #values 0-255 0 == max UP, 0 == max RIGHT
             for event in events:
                 if event.code == "ABS_Y":
-                    self.values['leftY'] = (event.state - 127)/2
+                    self.values['leftY'] = event.state - 127
                 if event.code == "ABS_RZ":
-                    self.values['rightY'] = (event.state - 127)/2
+                    self.values['rightY'] = event.state - 127
                 if event.code == "ABS_X":
-                    self.values['leftX'] = (event.state - 127)/2
+                    self.values['leftX'] = event.state - 127
                 if event.code == "ABS_Z":
-                    self.values['rightX'] = (event.state - 127)/2
+                    self.values['rightX'] = event.state - 127
                 
             self.tankDrive(
                 self.values['leftY'],
