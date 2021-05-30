@@ -117,8 +117,7 @@ class robot:
             self.holonomicDrive(
                 self.values['leftX'],
                 self.values['leftY'],
-                self.values['rightX'],
-                self.values['rightY'] )
+                self.values['rightX'] )
 
                
 
