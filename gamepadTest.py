@@ -70,7 +70,7 @@ class robot:
             self.board.digital_write(in1, 1)
             self.board.digital_write(in2, 0)
         self.board.pwm_write(ena, int( abs(value) * 2 * 0.75 ) )
-        print(ena, in1, in2)
+        print(ena, in1, in2, end = '\r')
         return(ena, in1, in2)
 
     def drive(self):
@@ -101,7 +101,7 @@ class robot:
         self.fR = lY - lX - rX
         self.bL = -lY + lX - rX
         self.bR = lY + lX - rX
-        print( [self.fL, self.fR, self.bL, self.bR], end='\r' )
+        #print( [self.fL, self.fR, self.bL, self.bR], end='\r' )
         self.drive()
     
     def tankDrive(self, lY, rY):
