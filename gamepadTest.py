@@ -1,6 +1,7 @@
 #from numpy import interp
 from pymata4 import pymata4
 from inputs import get_gamepad
+import art 
 
 class streamingMovingAverage:
     def __init__(self, window_size):
@@ -131,4 +132,8 @@ class robot:
 
 if __name__ == "__main__":
     TJ = robot()
+    art.tprint('TJ', font='dog')
+    print('Educational Platform')
+    print('Teleoperational Testbed')
+
     TJ.run()
