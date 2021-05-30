@@ -58,7 +58,7 @@ def distanceCalc(value):
     return(((67870.0 / (value - 3.0)) - 40.0))
 
 def lightCallback(data):
-    print(data[2], end = '\n')
+    #print(data[2], end = '\n')
     pass
 
 def tempCallback(data):
@@ -85,13 +85,13 @@ board.set_pin_mode_analog_input(sensorDict["rotSensor"]["pin"], callback=rotCall
 while 1:
     try:
         time.sleep(0.01)
-        '''print('Ultrasonic: {0} | Distance: {1} | Light: {2} | Temp: {3} | Rot: {4} '.format(
+        print('Ultrasonic: {0} | Distance: {1} | Light: {2} | Temp: {3} | Rot: {4} '.format(
             board.sonar_read(sensorDict["ultrasonicSensor"]["triggerPin"])[0],
             distanceCalc( board.analog_read( sensorDict[ "distanceSensor" ][ "pin" ] ) [0]) ,
             board.analog_read( sensorDict[ "lightSensor" ][ "pin" ] ) [0] ,
             board.analog_read( sensorDict[ "tempSensor" ][ "pin" ] )[0] ,
             board.analog_read( sensorDict[ "rotSensor" ][ "pin" ] )[0] ), end='\r')
-'''
+
     except KeyboardInterrupt:
             board.shutdown()
             sys.exit(0)
