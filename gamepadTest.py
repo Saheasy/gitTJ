@@ -127,12 +127,8 @@ class robot:
             self.tankDrive(
                 self.values['leftY'],
                 self.values['rightY'] )
+            print(self.bR, self.bL, self.fL, self.fR,end='\r')
             #self.bR, self.bL, self.fL, self.fR = 60,-60,-60,60
-            print( "{0},{1},{2},{3}".format(
-                str(self.bR).rjust(4, '0'),
-                str(self.bL).rjust(4, '0'),
-                str(self.fL).rjust(4, '0'),
-                str(self.fR).rjust(4, '0') ),end='\r')
             self.drive()
 
 
