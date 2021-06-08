@@ -113,7 +113,7 @@ class robot:
 
     def run(self):
         while 1:
-            events = get_gamepad() #values 0-255 0 == max UP, 0 == max RIGHT
+            #events = get_gamepad() #values 0-255 0 == max UP, 0 == max RIGHT
             '''
             for event in events:
                 if event.code == "ABS_Y":
