@@ -123,12 +123,13 @@ class robot:
                     self.values['leftX'] = event.state - 127
                 if event.code == "ABS_Z":
                     self.values['rightX'] = event.state - 127
-                
+            '''    
             self.tankDrive(
                 self.values['leftY'],
                 self.values['rightY'] )
+            '''
             print(self.bR, self.bL, self.fL, self.fR,end='\r')
-            #self.bR, self.bL, self.fL, self.fR = 60,-60,-60,60
+            self.bR, self.bL, self.fL, self.fR = 60,-60,-60,60
             self.drive()
 
 
