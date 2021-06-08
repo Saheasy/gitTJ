@@ -129,7 +129,7 @@ class robot:
                 self.values['leftY'],
                 self.values['rightY'] )
             '''
-            #self.bR, self.bL, self.fL, self.fR = 60,-60,-60,60
+            self.bR, self.bL, self.fL, self.fR = 60,-60,-60,60
             print( "{0},{1},{2},{3}".format(
                 str(self.bR).rjust(4, '0'),
                 str(self.bL).rjust(4, '0'),
