@@ -113,7 +113,8 @@ class robot:
 
     def run(self):
         while 1:
-            events = get_gamepad() #values 0-255 0 == max UP, 0 == max RIGHT
+            #events = get_gamepad() #values 0-255 0 == max UP, 0 == max RIGHT
+            '''
             for event in events:
                 if event.code == "ABS_Y":
                     self.values['leftY'] = event.state - 127
@@ -123,13 +124,17 @@ class robot:
                     self.values['leftX'] = event.state - 127
                 if event.code == "ABS_Z":
                     self.values['rightX'] = event.state - 127
-            '''    
+                
             self.tankDrive(
                 self.values['leftY'],
                 self.values['rightY'] )
             '''
-            print(self.bR, self.bL, self.fL, self.fR,end='\r')
-            self.bR, self.bL, self.fL, self.fR = 60,-60,-60,60
+            #self.bR, self.bL, self.fL, self.fR = 60,-60,-60,60
+            print( "{0},{1},{2},{3}".format(
+                str(self.bR).rjust(4, '0'),
+                str(self.bL).rjust(4, '0'),
+                str(self.fL).rjust(4, '0'),
+                str(self.fR).rjust(4, '0') ),end='\r')
             self.drive()
 
 
