@@ -1,6 +1,5 @@
 #from numpy import interp
 from pymata4 import pymata4
-from inputs import get_gamepad
 import art 
 
 class streamingMovingAverage:
@@ -94,46 +93,15 @@ class robot:
             self.pins['digitalOut']['rightIn3'],
             self.pins['digitalOut']['rightIn4'])
         
-
-    def holonomicDrive(self, lX, lY, rX, ):
-        self.fL = -lY - lX - rX
-        self.fR = lY - lX - rX
-        self.bL = -lY + lX - rX
-        self.bR = lY + lX - rX
-        #print( [self.fL, self.fR, self.bL, self.bR], end='\r' )
-        self.drive()
-    
-    def tankDrive(self, lY, rY):
-        self.fL = lY
-        self.fR = -rY
-        self.bL = lY
-        self.bR = -rY
-        #print( f'fL: {self.fL} | fR: {self.fR} | bL: {self.bL} | bR: {self.bR}' + ' ' * 20, end='\r' )
-        self.drive()
-
     def run(self):
         while 1:
-            events = get_gamepad() #values 0-255 0 == max UP, 0 == max RIGHT
-            for event in events:
-                if event.code == "ABS_Y":
-                    self.values['leftY'] = event.state - 127
-                if event.code == "ABS_RZ":
-                    self.values['rightY'] = event.state - 127
-                if event.code == "ABS_X":
-                    self.values['leftX'] = event.state - 127
-                if event.code == "ABS_Z":
-                    self.values['rightX'] = event.state - 127
-                
-            self.tankDrive(
-                self.values['leftY'],
-                self.values['rightY'] )
-               
-
-
+            self.bR, self.bL, self.fL, self.fR = 60,-60,-60,60
+            self.drive()
+            
 if __name__ == "__main__":
     TJ = robot()
     art.tprint('== TJ ==', font='dog') #big, 
-    art.tprint('Educational Platform', font = 'small')
-    art.tprint('Teleoperational Testbed', font = 'small')
+    art.tprint('        Educational Platform', font = 'small')
+    art.tprint(' Teleoperational Testbed', font = 'small')
 
     TJ.run()
