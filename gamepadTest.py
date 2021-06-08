@@ -130,11 +130,14 @@ class robot:
                 self.values['rightY'] )
             '''
             self.bR, self.bL, self.fL, self.fR = 60,-60,-60,60
+            '''
             print( "{0},{1},{2},{3}".format(
-                str(self.bR).rjust(4, '0'),
-                str(self.bL).rjust(4, '0'),
-                str(self.fL).rjust(4, '0'),
-                str(self.fR).rjust(4, '0') ),end='\r')
+                str(self.bR).rjust(4, ' '),
+                str(self.bL).rjust(4, ' '),
+                str(self.fL).rjust(4, ' '),
+                str(self.fR).rjust(4, ' ') ),end='\r')
+            '''
+            print(self.values)
             self.drive()
 
 
