@@ -19,7 +19,7 @@ class robot:
         self.board.set_pin_mode_digital_output(self.in2Pin)
 
     def drive(self):
-        self.board.servo_write(self.servoPin, int( map(self.leftx, 0, 255, 0, 180) ))
+        self.board.servo_write(self.servoPin, map(self.leftx, 0, 255, 0, 180))
         if self.righty >= 0:
             self.board.digital_write(self.in1Pin, 0)
             self.board.digital_write(self.in2Pin, 1)
