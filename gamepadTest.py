@@ -3,7 +3,7 @@ from pymata4 import pymata4
 from inputs import get_gamepad
 
 class robot:
-    def map(x, in_min, in_max, out_min, out_max):
+    def map(self, x, in_min, in_max, out_min, out_max):
         return int((x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min)
 
     def __init__(self):
