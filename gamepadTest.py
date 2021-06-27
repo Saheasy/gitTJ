@@ -38,9 +38,8 @@ class robot:
                     self.leftx = event.state
                 if event.code == "ABS_Z":
                     self.rightx = event.state
-            self.board.servo_write(self.servoPin, 0)
             print(self.leftx, end='\r')
-            #self.drive()
+            self.drive()
 
 if __name__ == "__main__":
     jerke = robot()
