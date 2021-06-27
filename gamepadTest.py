@@ -42,7 +42,8 @@ class robot:
                 if event.code == "ABS_Z":
                     self.rightx = event.state
             print(self.leftx, end='\r')
-            self.drive()
+            self.board.pwm_write(self.enaPin, 150 )
+            #self.drive()
 
 if __name__ == "__main__":
     jerke = robot()
