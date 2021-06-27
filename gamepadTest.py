@@ -31,13 +31,13 @@ class robot:
             events = get_gamepad() #values 0-255 0 == max UP, 0 == max RIGHT
             for event in events:
                 if event.code == "ABS_Y":
-                    self.lefty = event.state - 127
+                    self.lefty = event.state
                 if event.code == "ABS_RZ":
-                    self.righty = event.state - 127
+                    self.righty = event.state
                 if event.code == "ABS_X":
-                    self.leftx = event.state - 127
+                    self.leftx = event.state
                 if event.code == "ABS_Z":
-                    self.rightx = event.state - 127
+                    self.rightx = event.state
             print(self.leftx, end='\r')
             self.drive()
 
