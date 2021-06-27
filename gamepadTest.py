@@ -38,6 +38,7 @@ class robot:
                     self.leftx = event.state - 127
                 if event.code == "ABS_Z":
                     self.rightx = event.state - 127
+            print(self.leftx, end='\r')
             self.drive()
 
 if __name__ == "__main__":
