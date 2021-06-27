@@ -43,6 +43,8 @@ class robot:
                     self.rightx = event.state
             print(self.leftx, end='\r')
             self.board.pwm_write(self.enaPin, 150 )
+            self.board.digital_write(self.in1Pin, 0)
+            self.board.digital_write(self.in2Pin, 1)
             #self.drive()
 
 if __name__ == "__main__":
