@@ -4,10 +4,10 @@ from inputs import get_gamepad
 
 class robot:
     def __init__(self):
-        self.servoPin = 9
-        self.enaPin = 5
-        self.in1Pin = 6
-        self.in2Pin = 7
+        self.servoPin = 7
+        self.enaPin = 13
+        self.in1Pin = 22
+        self.in2Pin = 23
 
         self.board = pymata4.Pymata4()
         self.board.set_pin_mode_servo(self.servoPin)
