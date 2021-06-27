@@ -18,12 +18,12 @@ class robot:
     def drive(self):
         self.board.servo_write(self.servoPin, self.leftx)
         if self.righty >= 0:
-            self.board.digital_write(self.in1, 0)
-            self.board.digital_write(self.in2, 1)
+            self.board.digital_write(self.in1Pin, 0)
+            self.board.digital_write(self.in2Pin, 1)
         if self.righty < 0:
-            self.board.digital_write(self.in1, 1)
-            self.board.digital_write(self.in2, 0)
-        self.board.pwm_write(self.ena, int( abs(self.righty) ) )
+            self.board.digital_write(self.in1Pin, 1)
+            self.board.digital_write(self.in2Pin, 0)
+        self.board.pwm_write(self.enaPin, int( abs(self.righty) ) )
 
     def run(self):
         self.leftx, self.lefty, self.rightx, self.righty = 0,0,0,0
