@@ -3,6 +3,9 @@ from pymata4 import pymata4
 from inputs import get_gamepad
 
 class robot:
+    def map(x, in_min, in_max, out_min, out_max):
+        return int((x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min)
+
     def __init__(self):
         self.servoPin = 7
         self.enaPin = 13
@@ -16,7 +19,7 @@ class robot:
         self.board.set_pin_mode_digital_output(self.in2Pin)
 
     def drive(self):
-        self.board.servo_write(self.servoPin, self.leftx)
+        self.board.servo_write(self.servoPin, int( map(self.leftx, 0, 255, 0, 180) ))
         if self.righty >= 0:
             self.board.digital_write(self.in1Pin, 0)
             self.board.digital_write(self.in2Pin, 1)
