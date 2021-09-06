@@ -26,7 +26,7 @@ class robot:
                 if event.code == "ABS_Y":
                     self.left = event.state
                 if event.code == "ABS_RZ":
-                    self.right = event.state - 1
+                    self.right = event.state
                 print(self.left, self.right)
             self.drive()
 
