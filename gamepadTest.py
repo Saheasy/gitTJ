@@ -15,7 +15,7 @@ class robot:
         self.board.set_pin_mode_servo(self.servoRight)
 
     def drive(self):
-        self.board.servo_write(self.servoLeft, int(self.map(self.left, 0, 255, 176, 0)))
+        self.board.servo_write(self.servoLeft, int(self.map(self.left, 0, 255, 175, 0)))
         self.board.servo_write(self.servoRight, int(self.map(self.right, 0, 255, 0, 179)))
 
     def run(self):
