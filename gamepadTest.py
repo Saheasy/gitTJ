@@ -11,8 +11,8 @@ class robot:
         self.servoRight = 9
 
         self.board = pymata4.Pymata4()
-        self.board.set_pin_mode_servo(self.servoLeft[1])
-        self.board.set_pin_mode_servo(self.servoLeft[2])
+        self.board.set_pin_mode_servo(self.servoLeft)
+        self.board.set_pin_mode_servo(self.servoRight)
 
     def drive(self):
         self.board.servo_write(self.servoLeft, self.map(self.leftx, 0, 255, 0, 180))
