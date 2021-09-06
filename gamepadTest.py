@@ -19,7 +19,7 @@ class robot:
         self.board.servo_write(self.servoRight, int(self.map(self.right, 0, 255, 0, 179)))
 
     def run(self):
-        self.left, self.right = 0,0
+        self.left, self.right = 87,89
         while 1:
             events = get_gamepad() #values 0-255 0 == max UP, 0 == max RIGHT
             for event in events:
@@ -27,6 +27,7 @@ class robot:
                     self.left = event.state
                 if event.code == "ABS_RZ":
                     self.right = event.state
+                print(self.left, self.right)
             self.drive()
 
 if __name__ == "__main__":
