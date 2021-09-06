@@ -27,7 +27,7 @@ class robot:
                     self.left = event.state
                 if event.code == "ABS_RZ":
                     self.right = event.state
-                print(self.left, self.right)
+               
             self.drive()
 
 if __name__ == "__main__":
