@@ -16,7 +16,7 @@ class robot:
 
     def drive(self):
         self.board.servo_write(self.servoLeft, self.map(self.left, 0, 255, 0, 177))
-        self.board.servo_write(self.servoRight, self.map(self.right, 0, 255, 0, 189))
+        self.board.servo_write(self.servoRight, self.map(self.right, 0, 255, 0, 179))
 
     def run(self):
         self.left, self.right = 0,0
